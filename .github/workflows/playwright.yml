@@ -33,3 +33,11 @@ jobs:
           name: playwright-report-tests-examples
           path: playwright-report/
           retention-days: 1
+      - name: Merge playwright reports
+        run: npx playwright merge-reports playwright-report/
+      - name: Upload merged report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: merged-report
+          path: playwright-report/
