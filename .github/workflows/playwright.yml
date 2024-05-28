@@ -37,7 +37,7 @@ jobs:
       - name: List Playwright report directory contents (Debugging step)
         run: ls -R playwright-report/
       - name: Merge Playwright reports
-        run: npx playwright merge-reports playwright-report/tests playwright-report/tests-examples --output=playwright-report/merged
+        run: npx playwright merge-reports playwright-report/tests playwright-report/tests-examples
       - name: Upload merged report
         uses: actions/upload-artifact@v4
         if: always()
