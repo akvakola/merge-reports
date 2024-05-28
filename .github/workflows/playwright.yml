@@ -48,4 +48,4 @@ jobs:
         if: always()
         with:
           name: merged-report
-          path: playwright-report/merged
+          path: playwright-report
