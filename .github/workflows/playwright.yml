@@ -48,11 +48,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - name: Download test blob reports
+        uses: actions/download-artifact@v4
         with:
-          name: all-blob-reports
-          path: all-blob-reports
+          name: test-blob-report
+          path: all-blob-reports/test
+
+      - name: Download example blob reports
+        uses: actions/download-artifact@v4
+        with:
+          name: ex-blob-reports
+          path: all-blob-reports/examples
 
       - name: Merge into HTML Report
         run: npx playwright merge-reports --reporter html ./all-blob-reports
