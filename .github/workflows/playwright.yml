@@ -52,13 +52,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: test-blob-report
-          path: all-blob-reports/test
+          path: all-blob-reports/
 
       - name: Download example blob reports
         uses: actions/download-artifact@v4
         with:
           name: ex-blob-reports
-          path: all-blob-reports/examples
+          path: all-blob-reports/
 
       - name: Merge into HTML Report
         run: npx playwright merge-reports --reporter html all-blob-reports
