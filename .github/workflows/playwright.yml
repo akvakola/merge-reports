@@ -36,8 +36,13 @@ jobs:
           retention-days: 1
       - name: List Playwright report directory contents (Debugging step)
         run: ls -R playwright-report/
+      - name: Download reports
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-tests
+          path: playwright-report/tests
       - name: Merge Playwright reports
-        run: npx playwright merge-reports playwright-report/tests playwright-report/tests-examples
+        run: npx playwright merge-reports --reporter= html playwright-report/tests
       - name: Upload merged report
         uses: actions/upload-artifact@v4
         if: always()
