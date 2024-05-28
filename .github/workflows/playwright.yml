@@ -33,6 +33,8 @@ jobs:
           name: playwright-report-tests-examples
           path: playwright-report/
           retention-days: 1
+      - name: List Playwright report directory contents (Debugging step)
+        run: ls -R playwright-report/
       - name: Merge playwright reports
         run: npx playwright merge-reports playwright-report/
       - name: Upload merged report
