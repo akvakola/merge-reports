@@ -4,6 +4,7 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+
 jobs:
   test:
     timeout-minutes: 60
@@ -18,28 +19,28 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test --project=tests
+        run: npx playwright test --project=tests --reporter=html --output=playwright-report/tests
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report-tests
-          path: playwright-report/
+          path: playwright-report/tests
           retention-days: 1
       - name: Run Playwright tests-examples
-        run: npx playwright test --project=tests-examples
+        run: npx playwright test --project=tests-examples --reporter=html --output=playwright-report/tests-examples
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report-tests-examples
-          path: playwright-report/
+          path: playwright-report/tests-examples
           retention-days: 1
       - name: List Playwright report directory contents (Debugging step)
         run: ls -R playwright-report/
-      - name: Merge playwright reports
-        run: npx playwright merge-reports playwright-report/
+      - name: Merge Playwright reports
+        run: npx playwright merge-reports playwright-report/tests playwright-report/tests-examples --output=playwright-report/merged
       - name: Upload merged report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: merged-report
-          path: playwright-report/
+          path: playwright-report/merged
