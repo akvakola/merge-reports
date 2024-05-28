@@ -34,32 +34,27 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-tests-examples
-          path: playwright-report/tests
+          name: all-blob-reports
+          path: blob-report
           retention-days: 1
+  create-report:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Install dependencies
+        run: npm ci
 
-      # - name: List Playwright report directory contents (Debugging step)
-      #   run: ls -R playwright-report/
-
-      - name: Download reports
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          name: playwright-report-tests
-          path: playwright-report
+          name: all-blob-reports
+          path: all-blob-reports
 
-      - name: Download reports examples
-        uses: actions/download-artifact@v4
+      - name: Merge into HTML Report
+        run: npx playwright merge-reports --reporter html ./all-blob-reports
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v3
         with:
-          name: playwright-report-tests-examples
+          name: html-report--attempt-${{ github.run_attempt }}
           path: playwright-report
-
-      - name: Merge Playwright reports
-        run: npx playwright merge-reports playwright-report
-
-      - name: Upload merged report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: merged-report
-          path: playwright-report
-          retention-days: 1
+          retention-days: 7
